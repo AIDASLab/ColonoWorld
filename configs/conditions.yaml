@@ -1,0 +1,37 @@
+# Condition inputs: palette masks, 3D snare and 3D polyp inserts.
+palette:
+  edge_px: 3.0
+
+# Snare (camera frame, millimetres). Deployment ramps from start_deployment to 1 over ramp_frames
+# starting at the onset frame; the snare is present on frames onset <= t < offset.
+snare:
+  onset: 30
+  offset: 170
+  exit_mm: [5.0, 5.0]
+  sheath_len_mm: 11.0
+  loop_len_mm: 20.0
+  loop_width_mm: 14.0
+  tilt_deg: 25.0
+  yaw_deg: 0.0
+  close: 0.0
+  close_frames: [120, 160]
+  aim_fraction: 0.6
+  aim_xy: null
+  direction_len_mm: null
+  sheath_diam_mm: 2.5
+  wire_px: 8
+  ramp_frames: 15
+  start_deployment: 0.3
+
+# Polyp lifted onto the 3D wall. size_mm: a number, or "auto" to pick from sizes_mm the size
+# whose median in-view area is closest to target_area.
+polyp:
+  kind: sessile
+  size_mm: 16.0
+  sizes_mm: [10.0, 12.0, 14.0, 16.0, 18.0]
+  target_area: 0.02
+  onset: 0
+  offset: null
+  place_frame: 0
+
+fps: 24

@@ -1,0 +1,33 @@
+# Evaluation settings (main-table protocol). Paths use ${COLONOWORLD_DATA}; see docs/evaluation.md.
+camera:
+  readback_key: relative_c2w        # pose array in the estimator output .npz (camera-to-world, OpenCV, frame 0 = I)
+  n_frames: 189
+  windowed:                         # main protocol
+    frames: 16
+    frame_stride: 8
+    start_step: 8                   # 9 windows per 189-frame clip
+    gt_min_disp: 0.05               # reference displacement below this: window has no direction (DirErr)
+    readback_zero_disp: 0.005       # read-back displacement below this: DirErr counts 90 deg
+  summed:                           # 188-frame sums with a global scale and caps for untracked clips
+    scale: 0.1834034261807676       # least-squares scale fitted on the development clips (fit_scale)
+    cap:
+      rot_err_sum_deg: 3496.236
+      rot_err_mean_deg: 18.597
+      trans_err_sum: 70.21
+      cammc: 122.86
+  procedure:
+    chunk_stride: 188               # chained generation: chunk k = global frames 188k..188k+188
+
+quality:
+  n_frames: 189
+  i3d_weights: ${COLONOWORLD_DATA}/eval_weights/i3d_torchscript.pt
+  inception_weights: ${COLONOWORLD_DATA}/eval_weights/inception-2015-12-05.pt
+  clip_len: 16
+  window_stride: 1                  # 174 windows per 189-frame clip
+  frame_every: 1
+  resize: [224, 224]
+  is_splits: 10
+  matched: {repeats: 10, seed: 20261102}
+
+lumen:
+  variant: open_end_as_deep         # or frozen

@@ -1,0 +1,34 @@
+# SPDX-License-Identifier: CC-BY-NC-4.0
+# Full-procedure generation (cecum -> rectum withdrawal) as a chain of 189-frame chunks.
+# Model, weights and sampler defaults come from model.yaml.
+base: model.yaml
+
+chain:
+  shape: standard           # standard | u_shaped | v_shaped | short_compact | twisted | long_sigmoid | textbook
+  shapes_config: configs/full_colon_shapes.yaml
+  tube_dir: null            # prepared tube chunks (scripts/build_full_colon.py --render);
+                            # null = build and render the needed chunks into <output.dir>/tube
+  frame0: ${COLONOWORLD_DATA}/full_procedure/cecum_frame0.png  # start frame (image or uint8 .npy)
+  start_segment: 0          # first chunk to generate
+  segments: null            # number of chunks (null = through the last chunk)
+  conditions: null          # optional per-chunk conditions manifest (JSON; see docs/inference.md)
+  segment_ids: commanded    # commanded (anatomy of the camera path) | null
+  seed: 1
+  seed_stride: 1000003      # chunk k uses seed + seed_stride * k
+
+sampling:
+  num_steps: 35
+  tube_cfg: 1.0
+  mask_cfg: 3.0
+  guidance: 1.0
+
+output:
+  dir: outputs/full_procedure
+
+# REAL-Colon frames used as start frames (not distributed; extract them from your own download
+# with scripts/extract_realcolon_frame.py). REAL-Colon: Biffi et al., Sci. Data 2024, CC BY 4.0.
+frame_sources:
+  cecum_start:
+    video: "003-003"
+    frame: 25114
+    native_to_clip: [[0.8165987551221177, 0.0, -0.04662686202495715], [0.0, 0.8204307359385279, -27.053167254307695]]

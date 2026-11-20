@@ -1,0 +1,67 @@
+# Joint-conditioning fine-tuning (camera + tube + condition masks + NBI flag).
+# Launch: torchrun --nproc_per_node=8 scripts/train.py --config configs/train_joint.yaml
+
+# ${COLONOWORLD_DATA} and ${COLONOWORLD_CKPT} are read from the environment.
+
+model: configs/model.yaml           # Cosmos base weights and ColonoWorld modules (see docs/model.md)
+
+prepare:                            # scripts/prepare_data.py
+  tube_config: configs/tube.yaml    # tube construction (video_tube) and rendering (render)
+  window_frames: [65, 189]
+  agreement_gate: true
+  gates:                            # window admission thresholds
+    max_blocked_fraction: 0.20      # tube wall-fit QC
+    min_valid_fraction: 0.4         # flow support in every interval
+    min_block_cos: 0.35             # moving windows: real/tube block-flow direction cosine
+    min_radial_r: 0.4               #   radial (forward/backward) motion correlation
+    magnitude_ratio: [0.4, 2.5]     #   tube/real flow magnitude ratio
+    static_fraction: 0.8            # static windows: share of static intervals in both videos
+    static_p90_flow: 0.35           #   p90 flow magnitude (px per 4 frames at 160x120)
+
+data:
+  manifest: ${COLONOWORLD_DATA}/train/manifest.jsonl   # written by scripts/prepare_data.py
+  top_motion_fraction: 0.3          # clean windows in the top 30% lateral/rotation motion are drawn x2
+
+sampler:
+  seed: 20261027                    # draw seed: every (update, draw) is reproducible
+  dropout_seed: 20261026031         # tube/camera condition-dropout seed
+  weights: {clean: 0.30, polyp: 0.25, irrigation: 0.15, tool: 0.15, nbi: 0.15}
+  top_weight: 2
+  forward_weight: 4                 # forward-moving clean windows
+  nbi_directional_weight: 8         # light switches NBI <-> white light between first and last frame
+  nbi_switch_weight: 2
+  p_entry: {polyp: 0.5, tool: 0.3, irrigation: 0.5}
+  p_mask: {polyp: 0.8, tool: 0.9, water: 0.9}
+  p_empty_negative: 0.3
+  p_condition_unknown: 0.10
+  p_flags_unknown: 0.10
+  p_all_unknown: 0.05
+  entry_retries: 8
+
+augmentation:
+  enabled: true                     # mirror, roll, roll drift, inscribed optical disk
+  static_schedule: "0.10"           # static-camera draws
+  handoff_corruption: true          # conditioning-frame corruption (clean/pixel/latent = 50/40/10)
+
+loss:
+  irrigation_weight: 3.0            # flow-matching weight inside the dilated water-jet region
+  irrigation_dilate_px: 25
+
+optim:
+  lr_tokens: 1.0e-4                 # tube and mask condition tokens, segment embedding
+  lr_projectors: 1.0e-3             # mask-stream input projection and global-flag adapter (x10)
+  lr_lora: 2.0e-5
+  betas: [0.9, 0.999]
+  eps: 1.0e-8
+  warmup_updates: 100
+  clip_norm: 1.0
+  ema_decay: 0.99
+
+run:
+  init_checkpoint: ${COLONOWORLD_CKPT}/colonoworld.pt  # start weights (released model; or your own)
+  updates: 750                      # joint-conditioning updates after the init checkpoint
+  microbatches: 1                   # per GPU; effective batch = GPUs x microbatches = 8
+  checkpoint_every: 250
+  iteration_offset: 1200            # flow-matching noise index offset (camera-stage updates)
+  noise_seed: 202610060             # flow-matching time/noise seed (+ iteration index)
+  output_dir: ${COLONOWORLD_CKPT}/joint

@@ -1,0 +1,215 @@
+# SPDX-License-Identifier: CC-BY-NC-4.0
+# ColonoWorld model: Cosmos3-Nano video backbone + camera / tube / mask / global conditioning.
+# Paths: ${COSMOS_WEIGHTS} holds the Cosmos3-Nano weights (model/ as DCP or safetensors,
+# Wan2.2_VAE.pth, text_tokenizer/); ${COLONOWORLD_CKPT} holds the ColonoWorld checkpoint.
+
+weights:
+  base: ${COSMOS_WEIGHTS}/model                      # Cosmos3-Nano base network
+  checkpoint: ${COLONOWORLD_CKPT}/colonoworld.pt    # ColonoWorld weights (raw + EMA)
+  use: ema                                           # ema | raw
+
+runtime:
+  bf16_weights: true          # store weights in bf16 (inference); false keeps fp32 master weights
+  cudnn_benchmark: true
+  deterministic: false        # true: bitwise-reproducible kernels (slower)
+
+video:
+  frames: 189                 # 4n+1 output frames per chunk
+  height: 832
+  width: 1104
+  fps: 24
+
+sampling:
+  num_steps: 35
+  shift: 10.0
+  guidance: 1.0               # text guidance
+  tube_cfg: 1.0
+  mask_cfg: 3.0
+  caption: Egocentric colonoscopy video showing the colon lumen and mucosal surface.
+
+# Cosmos framework model configuration (OmniMoTModel config).
+framework:
+  action_gen: false
+  action_io_projector_type: domain_aware
+  activation_checkpointing:
+    determinism_check: default
+    mode: none
+    preserve_rng_state: true
+    save_only_marked_ops: false
+    save_ops_regex:
+    - fmha_forward
+    - _flash_attn_varlen_forward
+    - _flash_attn_forward
+  attention_io_layout: sequence_sharded
+  causal_training_strategy: none
+  compile:
+    ar_post_saturation_mode: default
+    compile_dynamic: true
+    compiled_region: language
+    coordinate_descent_tuning: false
+    cuda_graph_scope: block
+    enabled: false
+    mark_unbacked: false
+    max_autotune_pointwise: false
+    use_cuda_graphs: false
+  correct_cp_gradients: false
+  diffusion_expert_config:
+    base_fps: 24
+    enable_action_modality_embedding: true
+    enable_fps_modulation: true
+    enable_media_modality_embedding: false
+    enable_sound_modality_embedding: true
+    enable_vision_modality_embeddings: false
+    load_weights_from_pretrained: false
+    max_vae_latent_side_after_patchify: 20
+    patch_spatial: 2
+    sound_base_temporal_compression_factor: null
+    timestep_range: 1.0
+    unified_3d_mrope_reset_spatial_ids: true
+    unified_3d_mrope_temporal_modality_margin: 15000
+    vision_temporal_position_mode: latent_index
+  ema:
+    enabled: false
+    iteration_shift: 0
+    rate: 0.1
+  enable_input_bias: true
+  exclude_reasoner_weights_from_checkpoint: false
+  fixed_step_sampler_config: null
+  input_caption_key: ai_caption
+  input_image_key: images
+  input_video_key: video
+  joint_attn_implementation: two_way
+  latent_downsample_factor: 16
+  lbl:
+    coeff_gen: null
+    coeff_und: null
+    method: local
+  lidar_fps: null
+  lidar_state_ch: null
+  lidar_tokenizer: null
+  load_vision_tokenizer: true
+  lora_alpha: 32
+  lora_enabled: true
+  lora_rank: 16
+  lora_target_modules: q_proj_moe_gen,k_proj_moe_gen,v_proj_moe_gen,o_proj_moe_gen
+  max_action_dim: 64
+  max_num_tokens_after_packing: 131072
+  multiview_attention:
+    backend: auto
+    mask:
+      attention_scope: all_views
+      control_attends_sensor: false
+      decomposed_temporal_window_seconds: null
+      lidar_attends_captions: true
+  natten_parameter_list: null
+  net: null
+  num_embodiment_domains: 32
+  parallelism:
+    cfg_parallel_shard_degree: 1
+    context_parallel_shard_degree: 1
+    data_parallel_replicate_degree: 1
+    data_parallel_shard_degree: -1
+    enable_inference_mode: false
+    fsdp_cpu_offload: false
+    fsdp_master_dtype: float32
+    fsdp_reduce_dtype: bfloat16
+    vae_load_balance_group_size: 1
+  precision: bfloat16
+  quantization:
+    exclude_regex: []
+    fp8_granularity: per_row
+    include_regex: []
+    method: null
+    mixed_precision_first_steps: 0
+    mixed_precision_last_steps: 0
+    mixed_precision_reasoner_policy: high_precision
+    mixed_precision_w8a16_cache: none
+    modelopt_fp8_checkpoint_path: null
+    modelopt_fp8_target_fqns: []
+  radar_tokenizer: null
+  rectified_flow_inference_config:
+    num_train_timesteps: 1000
+    scheduler_type: unipc
+    shift: 1
+    use_dynamic_shifting: false
+  rectified_flow_training_config:
+    action_loss_weight: 10.0
+    image_loss_scale: null
+    independent_action_schedule: false
+    independent_sound_schedule: false
+    lidar_loss_scale: null
+    loss_scale: 10.0
+    normalize_loss_by_active: false
+    sample_level_loss_averaging: false
+    shift: 10
+    shift_action: null
+    shift_image: null
+    shift_sound: null
+    sound_loss_scale: 2.0
+    train_time_action_distribution: logitnormal
+    train_time_image_distribution: logitnormal
+    train_time_sound_distribution: logitnormal
+    train_time_video_distribution: waver
+    train_time_weight: uniform
+    use_discrete_rf: false
+    use_dynamic_shift: false
+  resolution: '720'
+  sound_dim: 64
+  sound_gen: false
+  sound_latent_fps: 25
+  sound_tokenizer: null
+  sr_latent_condition_noise: null
+  state_ch: 48
+  state_t: 300
+  tokenizer:
+    _target_: cosmos_framework.model.generator.tokenizers.wan2pt2_vae_4x16x16.Wan2pt2VAEInterface
+    bucket_name: ''
+    causal: true
+    chunk_duration: 93
+    encode_bucket_multiple: null
+    encode_chunk_frames:
+      '256': 68
+      '480': 24
+      '720': 8
+    encode_exact_durations:
+    - 1
+    - 17
+    - 65
+    - 189
+    keep_decoder_cache: false
+    object_store_credential_path_pretrained: ''
+    spatial_compression_factor: 16
+    temporal_compression_factor: 4
+    temporal_window: null
+    use_streaming_encode: false
+    vae_path: ${COSMOS_WEIGHTS}/Wan2.2_VAE.pth
+  video_temporal_causal: false
+  vision_gen: true
+  vlm_config:
+    layer_module: Qwen2MoTDecoderLayer
+    model_instance:
+      _target_: cosmos_framework.model.generator.mot.unified_mot.Qwen3VLTextForCausalLM
+      config:
+        _target_: cosmos_framework.configs.base.defaults.reasoner.create_vlm_config
+        base_config:
+          _target_: cosmos_framework.model.generator.mot.unified_mot.Qwen3VLMoTConfig.from_json_file
+          json_file: cosmos_framework/model/generator/reasoner/qwen3_vl/configs/Qwen3-VL-8B-Instruct.json
+        freeze_und: false
+        layer_module: MoTDecoderLayer
+        qk_norm_for_text: true
+        tie_word_embeddings: true
+    model_name: Qwen/Qwen3-VL-8B-Instruct
+    pretrained_weights:
+      backbone_path: ''
+      checkpoint_format: null
+      credentials_path: ''
+      enable_gcs_patch_in_boto3: true
+      enabled: false
+    qk_norm: false
+    safetensors_path: ''
+    tie_word_embeddings: false
+    tokenizer:
+      _target_: cosmos_framework.configs.base.defaults.reasoner.create_qwen2_tokenizer_with_download
+      config_variant: hf
+      pretrained_model_name: ${COSMOS_WEIGHTS}/text_tokenizer
+    use_system_prompt: false

@@ -1,0 +1,252 @@
+# REAL-Colon window manifest used to build the full-colon donor template
+# (scripts/build_tube_assets.py donor-template).
+#
+# Window names refer to videos of the REAL-Colon dataset:
+#   Biffi et al., "REAL-Colon: A dataset for developing real-world AI applications in
+#   colonoscopy", Scientific Data 11, 539 (2024). https://doi.org/10.1038/s41597-024-03359-0
+#   Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+# The values below are derived from REAL-Colon; no video frames are included.
+
+donor_template_build:
+  # Reference full colon built by scripts/build_tube_assets.py donor-template from fitted
+  # REAL-Colon training windows (window names: <video>_<run>_<frame>_..._<window>:<offset>:f<frames>).
+  inputs: ${COLONOWORLD_DATA}/full_colon/donor_inputs
+  chain_reference_radius: 0.5214117746267084  # pose-unit gauge (R / 2.5 per cm)
+  scale: 0.85               # course length scale
+  withdrawal_frames: 2633   # 14 chunks of 188 frames + 1
+  start_inset_R: 1.6        # withdrawal starts this far from the cecal pole
+  end_inset_R: 0.75         # and ends this far inside the anus
+  lookahead_R: 1.0          # base view looks this far ahead along the centreline
+  dwell_start_inset_R: 1.4  # cecal dwell starts this far from the pole
+  course:                   # schematic course control points (cm), anus to cecum
+    rectum: [[0.0, 0.0, 3.5], [0.0, 3.5, 1.5], [0.3, 7.0, -1.5], [0.8, 10.5, -3.3]]
+    sigmoid: [[1.0, 13.8, -3.4], [-1.5, 17.5, -0.5], [-5.0, 20.0, 3.0], [-6.0, 23.0, 5.0], [-3.5, 25.5, 6.5], [0.5, 25.5, 6.5], [3.5, 24.0, 5.5], [4.5, 20.5, 4.0], [7.0, 18.5, 2.5], [10.5, 18.5, 0.5]]
+    descending: [[13.0, 20.5, -1.5], [14.5, 27.0, -3.5], [15.0, 35.0, -4.5], [14.8, 41.5, -4.5]]
+    splenic flexure: [[14.2, 46.0, -3.5], [13.0, 49.0, -1.0]]
+    transverse: [[10.8, 49.0, 1.8], [8.5, 47.0, 4.5], [5.5, 42.0, 7.5], [2.5, 35.5, 9.5], [-2.0, 32.6, 10.2], [-6.5, 34.8, 9.5], [-8.5, 37.5, 8.5], [-10.5, 40.5, 7.0], [-12.6, 43.8, 5.0]]
+    hepatic flexure: [[-15.0, 44.4, 1.8]]
+    ascending: [[-16.3, 42.3, -0.8], [-16.3, 39.0, -2.0], [-15.8, 34.0, -2.0], [-15.2, 30.0, -1.5]]
+    cecum: [[-15.0, 27.0, -1.2], [-14.0, 20.8, 0.2]]
+  route:                    # withdrawal timing: fraction of time -> fraction of length
+    fraction: [0.0, 0.07028590024576598, 0.14396683951233682, 0.21953841668938393, 0.2928020054781014, 0.3575016673303513, 0.4239244829790303, 0.49519425820549473, 0.5702066564335229, 0.6330324609479635, 0.7264792604412111, 0.7997820927626007, 0.8655307650681041, 0.9262281975620246, 1.0]
+    s_fraction: [0.9712749613267166, 0.8886099609069682, 0.8252797509986152, 0.7457312814020234, 0.6724407598958414, 0.5995016366195958, 0.5347988739137675, 0.4634736234379841, 0.3836195077668938, 0.3196523133800835, 0.26742561733853165, 0.20548654604523026, 0.15478886488324145, 0.08985228948090151, 0.01346486187810161]
+  training_rotation_deg_per_frame:  # pooled camera rotation rate of the training windows
+    p99: 4.270940132852092
+    max: 46.63232983586706
+  residual_block_selection:  # small-residual training windows for the camera residuals
+    position_R_max: [0.001, 0.06]
+    heading_deg_max: [0.05, 3.0]
+    heading_step_deg_max: 2.0
+  residual_block_windows:   # candidate 189-frame windows, in this order
+    - "001-015_r00_29146_lv00_f000-284:0:f189"
+    - "002-004_r13_21141_lv00_f000-237:30:f189"
+    - "002-004_r13_21141_lv00_f000-237:48:f189"
+    - "003-002_r02_17574_lv00_f000-237:30:f189"
+    - "003-002_r02_18074_lv00_f000-237:0:f189"
+    - "003-002_r02_18074_lv00_f000-237:30:f189"
+    - "003-002_r02_18074_lv00_f000-237:48:f189"
+    - "003-003_r00_51475_lv00_f000-237:30:f189"
+    - "003-003_r00_59225_lv00_f000-237:48:f189"
+    - "003-003_r00_59475_lv00_f000-237:30:f189"
+    - "003-003_r00_74725_lv00_f000-237:30:f189"
+    - "003-003_r00_81475_lv00_f000-218:0:f189"
+    - "003-003_r00_81475_lv00_f000-218:25:f189"
+    - "003-005_r00_106129_lv00_f000-237:0:f189"
+    - "003-005_r00_106129_lv00_f000-237:48:f189"
+    - "003-005_r00_85879_lv00_f000-237:0:f189"
+    - "003-006_r00_49618_lv00_f000-199:2:f189"
+    - "003-006_r00_53368_lv00_f000-237:30:f189"
+    - "003-006_r00_57118_lv00_f032-250:0:f189"
+    - "003-006_r00_63368_lv00_f000-237:30:f189"
+    - "003-011_r00_45868_lv00_f000-237:48:f189"
+    - "003-013_r01_36266_lv00_f000-237:48:f189"
+    - "003-013_r01_50766_lv00_f000-237:30:f189"
+    - "003-013_r01_52266_lv00_f000-237:0:f189"
+    - "003-013_r01_52266_lv00_f000-237:30:f189"
+    - "003-013_r01_52266_lv00_f000-237:48:f189"
+    - "003-015_r01_64624_lv00_f000-237:0:f189"
+    - "003-015_r01_64624_lv00_f000-237:30:f189"
+    - "003-015_r01_64624_lv00_f000-237:48:f189"
+    - "003-015_r01_91124_lv00_f000-237:30:f189"
+    - "003-015_r01_91124_lv00_f000-237:48:f189"
+    - "004-010_r00_21227_lv00_f046-300:0:f189"
+    - "004-010_r00_21227_lv00_f046-300:18:f189"
+    - "001-006_r00_35037_lv00_f000-282:0:f189"
+    - "001-006_r00_35037_lv00_f000-282:30:f189"
+    - "001-011_r00_18136_lv00_f000-284:30:f189"
+    - "001-011_r00_18136_lv00_f000-284:48:f189"
+    - "001-014_r00_21864_lv00_f000-284:0:f189"
+    - "001-014_r00_21864_lv00_f000-284:30:f189"
+    - "001-014_r00_26364_lv00_f000-284:0:f189"
+    - "001-014_r00_26364_lv00_f000-284:30:f189"
+    - "001-015_r00_29146_lv00_f000-284:30:f189"
+    - "001-015_r00_29146_lv00_f000-284:48:f189"
+    - "002-004_r13_21141_lv00_f000-237:0:f189"
+    - "002-007_r02_27064_lv00_f000-237:0:f189"
+    - "002-007_r02_27064_lv00_f000-237:30:f189"
+    - "002-007_r02_27064_lv00_f000-237:48:f189"
+    - "002-007_r02_30064_lv00_f000-218:0:f189"
+    - "002-007_r02_30064_lv00_f000-218:25:f189"
+    - "002-010_r02_16278_lv00_f000-237:0:f189"
+    - "002-010_r02_16278_lv00_f000-237:30:f189"
+    - "002-010_r02_16278_lv00_f000-237:48:f189"
+    - "003-002_r02_30324_lv00_f000-223:0:f189"
+    - "003-002_r02_41074_lv00_f000-237:0:f189"
+    - "003-002_r02_41074_lv00_f000-237:30:f189"
+    - "003-002_r02_41074_lv00_f000-237:48:f189"
+    - "003-003_r00_51475_lv00_f000-237:0:f189"
+    - "003-003_r00_51475_lv00_f000-237:48:f189"
+    - "003-003_r00_52225_lv00_f000-237:0:f189"
+    - "003-003_r00_52225_lv00_f000-237:30:f189"
+    - "003-003_r00_52225_lv00_f000-237:48:f189"
+    - "003-003_r00_52975_lv00_f000-237:0:f189"
+    - "003-003_r00_52975_lv00_f000-237:30:f189"
+    - "003-003_r00_52975_lv00_f000-237:48:f189"
+    - "003-003_r00_54225_lv00_f000-237:30:f189"
+    - "003-003_r00_54225_lv00_f000-237:48:f189"
+    - "003-003_r00_56725_lv00_f000-237:0:f189"
+    - "003-003_r00_56725_lv00_f000-237:48:f189"
+    - "003-003_r00_57475_lv00_f000-237:0:f189"
+    - "003-003_r00_59225_lv00_f000-237:0:f189"
+    - "003-003_r00_59225_lv00_f000-237:30:f189"
+    - "003-003_r00_59475_lv00_f000-237:0:f189"
+    - "003-003_r00_59475_lv00_f000-237:48:f189"
+    - "003-003_r00_65725_lv00_f000-237:30:f189"
+    - "003-003_r00_65725_lv00_f000-237:48:f189"
+    - "003-003_r00_72725_lv00_f000-237:30:f189"
+    - "003-003_r00_72725_lv00_f000-237:48:f189"
+    - "003-003_r00_74725_lv00_f000-237:0:f189"
+    - "003-003_r00_74725_lv00_f000-237:48:f189"
+    - "003-005_r00_85879_lv00_f000-237:30:f189"
+    - "003-005_r00_85879_lv00_f000-237:48:f189"
+    - "003-006_r00_53368_lv00_f000-237:48:f189"
+    - "003-006_r00_53618_lv00_f000-214:0:f189"
+    - "003-006_r00_53618_lv00_f000-214:20:f189"
+    - "003-006_r00_57118_lv00_f032-250:25:f189"
+    - "003-006_r00_58618_lv00_f020-250:0:f189"
+    - "003-006_r00_58618_lv00_f020-250:30:f189"
+    - "003-006_r00_58618_lv00_f020-250:39:f189"
+    - "003-006_r00_63118_lv00_f000-237:0:f189"
+    - "003-006_r00_63118_lv00_f000-237:30:f189"
+    - "003-006_r00_63118_lv00_f000-237:48:f189"
+    - "003-006_r00_63368_lv00_f000-237:0:f189"
+    - "003-006_r00_63368_lv00_f000-237:48:f189"
+    - "003-006_r00_86368_lv00_f000-237:0:f189"
+    - "003-006_r00_86368_lv00_f000-237:30:f189"
+    - "003-006_r00_86368_lv00_f000-237:48:f189"
+    - "003-006_r00_89618_lv00_f015-226:17:f189"
+    - "003-010_r04_44202_lv00_f000-201:5:f189"
+    - "003-011_r00_45868_lv00_f000-237:0:f189"
+    - "003-011_r00_45868_lv00_f000-237:30:f189"
+    - "003-011_r00_59618_lv00_f018-250:0:f189"
+    - "003-011_r00_59618_lv00_f018-250:30:f189"
+    - "003-011_r00_59618_lv00_f018-250:42:f189"
+    - "003-013_r01_35516_lv00_f000-237:0:f189"
+    - "003-013_r01_35516_lv00_f000-237:30:f189"
+    - "003-013_r01_35516_lv00_f000-237:48:f189"
+    - "003-013_r01_36266_lv00_f000-237:30:f189"
+    - "003-013_r01_41016_lv00_f000-237:0:f189"
+    - "003-013_r01_41016_lv00_f000-237:48:f189"
+    - "003-015_r01_68624_lv00_f003-240:0:f189"
+    - "003-015_r01_68624_lv00_f003-240:30:f189"
+    - "003-015_r01_68624_lv00_f003-240:48:f189"
+    - "003-015_r01_68874_lv00_f000-237:0:f189"
+    - "003-015_r01_68874_lv00_f000-237:30:f189"
+    - "003-015_r01_68874_lv00_f000-237:48:f189"
+    - "003-015_r01_69624_lv00_f000-237:0:f189"
+    - "003-015_r01_69624_lv00_f000-237:30:f189"
+    - "003-015_r01_69624_lv00_f000-237:48:f189"
+    - "003-015_r01_70124_lv00_f000-237:0:f189"
+    - "003-015_r01_70124_lv00_f000-237:30:f189"
+    - "003-015_r01_70124_lv00_f000-237:48:f189"
+    - "003-015_r01_70624_lv00_f000-237:0:f189"
+    - "003-015_r01_70624_lv00_f000-237:30:f189"
+    - "003-015_r01_70624_lv00_f000-237:48:f189"
+    - "001-011_r00_8938_lv00_f000-236_h1:0:f189"
+    - "003-007_r00_22983_lv00_f000-197_h1:0:f189"
+    - "003-013_r01_22905_lv00_f000-197_h1:0:f189"
+    - "002-007_r02_41819_lv00_f000-197_h1:0:f189"
+  dwell_window: "003-007_r00_22983_lv00_f000-197_h1:0:f189"  # cecum window whose rotations the dwell replays
+  cap_fits:                 # fitted blind cecal caps (median is used)
+    - {window: "001-005_r00_10413_lv00_f000-081_h1:0:f65", dome_length_R: 0.2500000007559132, fold_depth_R: 0.025, fold_width_R: 0.0822264417237488}
+    - {window: "001-006_r00_16620_lv00_f000-081_h1:0:f65", dome_length_R: 0.250000000031209, fold_depth_R: 0.060683111354231385, fold_width_R: 0.10414037908902044}
+    - {window: "001-007_r01_12061_lv00_f000-081_h1:0:f65", dome_length_R: 0.42719416405813804, fold_depth_R: 0.08, fold_width_R: 0.06}
+    - {window: "001-007_r01_12196_lv00_f000-081_h1:0:f65", dome_length_R: 0.5955674393381054, fold_depth_R: 0.06422186879450517, fold_width_R: 0.07077787870185996}
+    - {window: "001-011_r00_10120_lv00_f000-081_h1:0:f65", dome_length_R: 0.25000000000000566, fold_depth_R: 0.046166844552232786, fold_width_R: 0.06535336849437715}
+    - {window: "001-011_r00_10366_lv00_f000-081_h1:0:f65", dome_length_R: 0.2500000000000109, fold_depth_R: 0.08, fold_width_R: 0.06037480517781919}
+    - {window: "001-011_r00_8938_lv00_f000-236_h1:0:f189", dome_length_R: 0.25000000000000006, fold_depth_R: 0.03976264390398617, fold_width_R: 0.06774761940393305}
+    - {window: "001-013_r00_8931_lv00_f000-081_h1:0:f65", dome_length_R: 0.25000000000000006, fold_depth_R: 0.08, fold_width_R: 0.08563249267352196}
+    - {window: "002-007_r02_15564_lv00_f000-178:0:f65", dome_length_R: 1.462377377789889, fold_depth_R: 0.08, fold_width_R: 0.06956931555017858}
+    - {window: "003-002_r02_11698_lv00_f000-068_h1:0:f65", dome_length_R: 0.3076715519798952, fold_depth_R: 0.08, fold_width_R: 0.08578730322765313}
+    - {window: "003-003_r00_24975_lv00_f139-250:0:f65", dome_length_R: 0.39693262059697054, fold_depth_R: 0.08, fold_width_R: 0.06}
+    - {window: "003-003_r00_25582_lv00_f000-068_h1:0:f65", dome_length_R: 1.0607061181394684, fold_depth_R: 0.07478308471532323, fold_width_R: 0.06}
+    - {window: "003-006_r00_43065_lv00_f000-068_h1:0:f65", dome_length_R: 1.2425827566315755, fold_depth_R: 0.08, fold_width_R: 0.07218596395506402}
+    - {window: "003-007_r00_22296_lv00_f000-068_h1:0:f65", dome_length_R: 0.6357538537569069, fold_depth_R: 0.0290129505551469, fold_width_R: 0.11116004954048234}
+    - {window: "003-007_r00_22983_lv00_f000-197_h1:0:f189", dome_length_R: 0.25000000000179773, fold_depth_R: 0.08, fold_width_R: 0.07017945141607328}
+    - {window: "003-012_r00_30476_lv00_f006-142:0:f65", dome_length_R: 0.495192393458133, fold_depth_R: 0.08, fold_width_R: 0.06}
+    - {window: "003-013_r00_19321_lv00_f000-068_h1:0:f65", dome_length_R: 0.6323722942959904, fold_depth_R: 0.06469724289985955, fold_width_R: 0.06}
+    - {window: "003-013_r01_22665_lv00_f000-068_h1:0:f65", dome_length_R: 0.2500000000000856, fold_depth_R: 0.08, fold_width_R: 0.06929416038372299}
+    - {window: "003-013_r01_22734_lv00_f000-068_h1:0:f65", dome_length_R: 0.250000000012204, fold_depth_R: 0.060683111354231385, fold_width_R: 0.10414037908902044}
+    - {window: "003-013_r01_22821_lv00_f000-068_h1:0:f65", dome_length_R: 0.33766595583882053, fold_depth_R: 0.03553656256532194, fold_width_R: 0.06914962057636266}
+    - {window: "003-013_r01_22905_lv00_f000-197_h1:0:f189", dome_length_R: 0.2500000000201536, fold_depth_R: 0.046748923154744666, fold_width_R: 0.08945845946967385}
+  appendiceal_orifice: {x_R: 0.09918844763135364, y_R: -0.46698559813072893, radius_R: 0.04430826104536066, depth_R: 0.02215413052268033}  # from window 003-003_r00_25582_lv00_f000-068_h1:0:f65
+  ileocecal_valve: {phi_rad: -2.6831056850030315, length_R: 0.6871961360162371, width_R: 0.24253981271161307, height_R: 0.04850796254232262, wall_radius_R: 0.7118436162262467}  # from window 001-011_r00_10120_lv00_f000-081_h1:0:f65
+  reference_frame_clip: "001-001_r01_31544_lv00_f123-284"  # first frame -> device content mask
+  # The reference frame is not distributed: pass it with --reference-frame. It is REAL-Colon
+  # video 001-001, frame 31667 (native 1352x1080; a frame already on the 1104x832 clip canvas is
+  # also accepted). Native frames are mapped to the canvas with this affine.
+  reference_frame_source: {video: "001-001", frame: 31667}
+  reference_frame_native_to_clip: [[0.8165554133776447, 0.0, -0.02098930085133115], [0.0, 0.8204751168903952, -27.059830266412895]]
+  donor_pool:               # placed window tubes; one per segment is chosen
+    - {window: "004-013_r00_51116_lv00_f000-081_h1:0:f65", anatomy: "rectum", source_z_center: 1.70152566756113, source_span_R: 3.40305133512226}
+    - {window: "002-004_r13_22141_lv00_f000-160:81:f65", anatomy: "rectum", source_z_center: 1.9717301396981173, source_span_R: 3.813699310226105}
+    - {window: "003-010_r04_54202_lv00_f083-250:119:f65", anatomy: "rectum", source_z_center: 1.6509263316549476, source_span_R: 2.996274239058857}
+    - {window: "002-004_r13_21891_lv00_f127-250:0:f65", anatomy: "rectum", source_z_center: 2.107353202515914, source_span_R: 4.211272080222855}
+    - {window: "002-004_r13_22141_lv00_f000-160:0:f65", anatomy: "rectum", source_z_center: 1.8891854015517549, source_span_R: 3.7513441722072933}
+    - {window: "003-001_r04_48374_lv00_f000-100:38:f65", anatomy: "sigmoid", source_z_center: 2.3367905980018375, source_span_R: 4.5111517999991335}
+    - {window: "002-007_r02_36314_lv00_f060-250:81:f65", anatomy: "sigmoid", source_z_center: 0.8313157275474301, source_span_R: 1.4822024359305175}
+    - {window: "001-011_r00_18136_lv00_f000-284:48:f189", anatomy: "sigmoid", source_z_center: 0.6929199761101412, source_span_R: 1.3737526925098749}
+    - {window: "003-002_r02_41074_lv00_f000-237:0:f65", anatomy: "sigmoid", source_z_center: 2.376805709678411, source_span_R: 4.689280033695862}
+    - {window: "002-007_r02_40064_lv00_f000-168:81:f65", anatomy: "sigmoid", source_z_center: 1.8740990423558035, source_span_R: 3.747524985388967}
+    - {window: "003-011_r00_58868_lv00_f000-171:124:f65", anatomy: "sigmoid", source_z_center: 1.2397172915124535, source_span_R: 2.472120053870377}
+    - {window: "003-003_r00_89975_lv00_f000-125:68:f65", anatomy: "sigmoid", source_z_center: 2.376855396587205, source_span_R: 4.659625502140528}
+    - {window: "003-006_r00_86368_lv00_f000-237:0:f189", anatomy: "sigmoid", source_z_center: 0.9359629772241846, source_span_R: 1.8513104409191001}
+    - {window: "003-011_r00_58868_lv00_f000-171:124:f65", anatomy: "sigmoid", source_z_center: 1.2397172915124535, source_span_R: 2.472120053870377}
+    - {window: "003-002_r02_41074_lv00_f000-237:30:f189", anatomy: "sigmoid", source_z_center: 1.7562835853655723, source_span_R: 3.4375574453351163}
+    - {window: "003-008_r00_48861_lv00_f000-168:0:f65", anatomy: "sigmoid", source_z_center: 2.1656845035354184, source_span_R: 2.7362437524432295}
+    - {window: "001-011_r00_18136_lv00_f000-284:30:f189", anatomy: "sigmoid", source_z_center: 0.7792278624590803, source_span_R: 1.5422369169013308}
+    - {window: "003-001_r04_47874_lv00_f125-250:0:f65", anatomy: "sigmoid", source_z_center: 1.9888077132979647, source_span_R: 2.936024205988211}
+    - {window: "003-013_r01_52266_lv00_f000-237:48:f189", anatomy: "descending", source_z_center: 1.49108179216941, source_span_R: 2.9080793112760617}
+    - {window: "003-013_r01_50766_lv00_f000-237:30:f189", anatomy: "descending", source_z_center: 1.644014456476438, source_span_R: 2.9769736140453844}
+    - {window: "002-007_r02_35814_lv00_f000-119:0:f65", anatomy: "descending", source_z_center: 2.110831505353314, source_span_R: 4.1897995588004875}
+    - {window: "002-004_r13_16141_lv00_f129-250:0:f65", anatomy: "descending", source_z_center: 2.1457803679100413, source_span_R: 4.176801133237376}
+    - {window: "003-015_r01_90624_lv00_f000-178:0:f65", anatomy: "descending", source_z_center: 1.72361740890163, source_span_R: 3.4472348178032632}
+    - {window: "001-005_r00_18192_lv00_f174-300:0:f65", anatomy: "descending", source_z_center: 1.4232533354110128, source_span_R: 2.842981340211651}
+    - {window: "003-015_r01_91124_lv00_f000-237:48:f189", anatomy: "descending", source_z_center: 2.053081875834664, source_span_R: 3.7616907233715864}
+    - {window: "002-004_r13_16141_lv00_f129-250:0:f65", anatomy: "descending", source_z_center: 2.1457803679100413, source_span_R: 4.176801133237376}
+    - {window: "003-005_r00_106129_lv00_f000-237:0:f189", anatomy: "descending", source_z_center: 2.2617589981244848, source_span_R: 4.5235179962489696}
+    - {window: "003-015_r01_91124_lv00_f000-237:81:f65", anatomy: "splenic flexure", source_z_center: 1.331282065215444, source_span_R: 2.5754908731880874}
+    - {window: "003-003_r00_54225_lv00_f000-237:162:f65", anatomy: "splenic flexure", source_z_center: 2.36586402078942, source_span_R: 4.731728041578833}
+    - {window: "003-005_r00_86129_lv00_f000-237:0:f65", anatomy: "transverse", source_z_center: 0.8564572253895233, source_span_R: 1.6668368911116431}
+    - {window: "003-007_r00_32963_lv00_f000-237:81:f65", anatomy: "transverse", source_z_center: 2.404651288850225, source_span_R: 4.7736279945627444}
+    - {window: "003-003_r00_59475_lv00_f000-237:30:f189", anatomy: "transverse", source_z_center: 1.7153833506032339, source_span_R: 3.315762768294462}
+    - {window: "004-006_r01_29507_lv00_f081-300:138:f65", anatomy: "transverse", source_z_center: 0.9919229655250885, source_span_R: 1.9443552359524716}
+    - {window: "003-006_r00_63118_lv00_f000-237:162:f65", anatomy: "transverse", source_z_center: 0.8641663873995598, source_span_R: 1.543018633377315}
+    - {window: "003-015_r01_70874_lv00_f000-237:0:f65", anatomy: "transverse", source_z_center: 2.4613757461705763, source_span_R: 4.604457212719183}
+    - {window: "001-014_r00_23064_lv00_f029-300:162:f65", anatomy: "transverse", source_z_center: 2.3091654384522613, source_span_R: 4.541531998673577}
+    - {window: "003-015_r01_70874_lv00_f000-237:0:f65", anatomy: "transverse", source_z_center: 2.4613757461705763, source_span_R: 4.604457212719183}
+    - {window: "003-015_r01_70124_lv00_f000-237:0:f189", anatomy: "transverse", source_z_center: 0.6768844043652738, source_span_R: 1.3537688087305497}
+    - {window: "002-014_r00_35196_lv00_f125-250:68:f65", anatomy: "transverse", source_z_center: 1.6087672682845797, source_span_R: 3.030029570327841}
+    - {window: "002-007_r02_27064_lv00_f000-237:30:f189", anatomy: "transverse", source_z_center: 1.6827592091671426, source_span_R: 3.3524056013283285}
+    - {window: "003-013_r01_35516_lv00_f000-237:48:f189", anatomy: "transverse", source_z_center: 1.216209144412016, source_span_R: 2.3381982717482117}
+    - {window: "003-006_r00_63118_lv00_f000-237:30:f189", anatomy: "transverse", source_z_center: 1.1305039299734507, source_span_R: 2.2610078599469148}
+    - {window: "003-003_r00_59475_lv00_f000-237:162:f65", anatomy: "transverse", source_z_center: 2.416752160394695, source_span_R: 4.702652053235568}
+    - {window: "001-006_r00_35037_lv00_f000-282:81:f65", anatomy: "transverse", source_z_center: 1.644886699544901, source_span_R: 3.2481614333570974}
+    - {window: "003-006_r00_57118_lv00_f032-250:25:f189", anatomy: "hepatic flexure", source_z_center: 0.8071761982843311, source_span_R: 1.5180779180279274}
+    - {window: "003-015_r01_64624_lv00_f000-237:0:f189", anatomy: "ascending", source_z_center: 0.9312730189308364, source_span_R: 1.7458448879259265}
+    - {window: "003-002_r02_18324_lv00_f000-237:81:f65", anatomy: "ascending", source_z_center: 2.21838202778587, source_span_R: 4.401858712513302}
+    - {window: "004-003_r00_8878_lv00_f043-219:81:f65", anatomy: "ascending", source_z_center: 0.7774828378165716, source_span_R: 1.363728875539067}
+    - {window: "003-006_r00_49618_lv00_f000-199:81:f65", anatomy: "ascending", source_z_center: 1.359610860583431, source_span_R: 2.7165206711631527}
+    - {window: "003-008_r00_27861_lv00_f022-156:79:f65", anatomy: "ascending", source_z_center: 1.6563373729392352, source_span_R: 3.3126747458784678}
+    - {window: "003-013_r01_22905_lv00_f000-197_h1:0:f189", anatomy: "cecum", source_z_center: 1.1185633055407354, source_span_R: 2.1688407260031966}
+    - {window: "001-007_r01_12196_lv00_f000-081_h1:0:f65", anatomy: "cecum", source_z_center: 1.7299398094178318, source_span_R: 3.4598796188356573}

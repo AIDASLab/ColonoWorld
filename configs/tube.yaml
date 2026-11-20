@@ -1,0 +1,91 @@
+# Tube construction and rendering. ${COLONOWORLD_DATA} is read from the environment.
+
+render:
+  # Mucosa texture image (square RGB, gamma-encoded); attached to the wall chart.
+  texture: ${COLONOWORLD_DATA}/tube/mucosa_texture.png
+  # Exposure: light radius = median ray depth (every `exposure_stride`-th frame) / exposure_divisor.
+  exposure_divisor: 1.38
+  exposure_stride: 4
+  # Mitsuba LLVM worker threads per render.
+  threads: 1
+  # Endoscope device fields: the canvas cut by four corner lines [nx, ny, c], keeping
+  # nx * x + ny * y > c (pixel centres at integer coordinates, 1104x832 canvas).
+  device_fields:
+    A:
+      tl: [0.7807829486681327, 0.624802358405517, 111.49619863730425]
+      tr: [-0.7813015896314504, 0.6241536878360717, -749.401395303834]
+      bl: [0.7809266215586269, -0.6246227755541972, -408.33143637878186]
+      br: [-0.7808860352698601, -0.6246735146622744, -1268.7999126760235]
+    B:
+      tl: [0.7690035785941233, 0.6392444728814102, 97.1785626988494]
+      tr: [-0.7694432727548898, 0.6387151556149614, -750.5451732644046]
+      bl: [0.7689074355307645, -0.6393601141653295, -434.8180604925988]
+      br: [-0.7694915014557991, -0.6386570513094644, -1282.0925979406898]
+    C:
+      tl: [0.7634330447849589, 0.6458869762817385, 81.74407666562965]
+      tr: [-0.7629505269137133, 0.6464568767381836, -760.2363505211802]
+      bl: [0.7632618445348893, -0.6460892791845402, -455.5654506364499]
+      br: [-0.7634212206126993, -0.6459009520957653, -1297.885366680483]
+  # The device-field variant is picked from real frames; the best variant must beat the second by
+  # this score margin. Evaluation clips: first frame only. Training windows: most decisive of
+  # every 8th frame of the window.
+  min_field_margin_eval: 0.11
+  min_field_margin_training: 0.15
+
+video_tube:
+  # Per-segment wall-radius prior of the training tubes (units of 0.3 pose units):
+  # {"min_rows": int, "segments": {name: {n, radius_median, radius_p10, radius_p90}, "all": {...}}}
+  radius_prior: ${COLONOWORLD_DATA}/tube/radius_prior.json
+  # Haustral fold patterns of the training tubes: {"parameters": [{spacing_R, depth_frac, width_R,
+  # phase, taenia_rad, span_rad}, ...]}
+  fold_prior: ${COLONOWORLD_DATA}/tube/fold_prior.json
+  rule:
+    bend: 1.0            # bend toward the frame-0 lumen ray ahead of the front-most camera
+    offset_gain: 0.5     # axis shift toward the side where the lumen is seen
+    offset_ref_deg: 30.0 # lumen angle at which the full shift applies
+    knots: 24            # profile knots along the axis
+    behind: 1.75         # tube extent behind the rear-most camera (radii)
+    ahead: 8.8           # tube extent ahead of the front-most camera (radii)
+    max_slope: 0.75      # lateral slope limit of the bend
+    smooth: 0.6          # Gaussian smoothing of the knot centres (knots)
+    kernel_R: 0.4        # axial kernel width for the camera-path centreline (radii)
+    ramp_R: 1.5          # distance over which the bend ramps in (radii)
+    moving_R: 2.0        # camera path extent above which the path sets the axis (radii)
+    ball: 0.36           # camera clearance ball (radii)
+
+training_shape:
+  # Shape regularisation of the lumen-fit training tubes (colonoworld/tube/training_shape.py).
+  cross_section_clip: 0.15     # max radius deviation from the ring mean (fraction)
+  min_length_diameters: 3.3    # shorter tubes are extended at both ends (local diameters)
+  radius_lo: 0.62              # ring radius clip relative to the camera-arc median radius
+  radius_hi: 1.24
+  radius_slope: 0.25           # max |dr/ds|
+  transverse_lobe: 0.12        # three-lobed transverse section (fraction of the radius)
+  inflation_cap: 1.3           # fitted dilation above this is reduced toward it first
+  inflation_steps: [1.1, 1.2, 1.35]
+  exposure_divisor: 1.38
+  min_clearance: 0.3           # camera to wall, units of R
+  luma_bounds: [37.05697452995954, 135.44725543887705]  # mean luma range of the training tubes
+  motion_tolerance: 0.015      # allowed drop in camera-following block cosine vs the fitted tube
+
+training_seed:
+  # Seed of the training tubes from raw clips (colonoworld/tube/seed_*.py). Keyframe depth uses
+  # Depth Anything (v1, ViT-L) as distributed with MegaSaM: code checkout and weights.
+  depth_code: ${COLONOWORLD_DEPTH_CODE}
+  depth_weights: ${COLONOWORLD_DEPTH_WEIGHTS}  # depth_anything_vitl14.pth
+  depth_threads: 6  # CPU threads of the depth network
+  fold_prior: ${COLONOWORLD_DATA}/tube/fold_prior.json
+  texture: ${COLONOWORLD_DATA}/tube/mucosa_texture.png
+
+training_fit:
+  # Lumen fit of the training-window tubes (colonoworld/tube/fit_training.py).
+  texture: ${COLONOWORLD_DATA}/tube/mucosa_texture.png
+  search_seed_base: 20261029   # RNG seed of the search = search_seed_base + window index
+  random_samples: 100          # random deformation vectors after the fixed grid
+  evolution_generations: 8     # differential-evolution generations (population 6 x 14)
+  local_steps: 110             # local mutations per step scale (scales 1, 0.5, 0.25, 0.12)
+  body_scales: [1.0, 1.35, 1.8, 2.4, 3.2]  # static dilations tried in the screen
+  screen_cos_tolerance: 0.015  # allowed block-cosine drop vs the seed tube (sparse screen)
+  final_cos_tolerance: 0.02    # allowed block-cosine drop vs the seed tube (full render)
+  min_clearance: 0.3           # camera to wall, units of the reference radius
+  luma_bounds: [37.05697452995954, 135.44725543887705]  # mean luma range of the training tubes

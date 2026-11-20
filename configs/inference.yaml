@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: CC-BY-NC-4.0
+# Single-chunk generation. Model, weights and sampler defaults come from model.yaml.
+base: model.yaml
+
+inputs:
+  first_frame: ${COLONOWORLD_DATA}/example/frame0.png      # RGB image or uint8 .npy (832 x 1104)
+  cameras: ${COLONOWORLD_DATA}/example/cameras.npy         # camera-to-world poses (189, 4, 4)
+  intrinsics: ${COLONOWORLD_DATA}/example/intrinsics.json  # KB4 calibration
+  tube: ${COLONOWORLD_DATA}/example/tube.mp4               # rendered tube video, or a TubeModel .npz
+  mask: null              # optional palette video (.mp4/.npy) or boolean class masks (.npz)
+  nbi: false              # true: special light (NBI) on every frame
+  segments: null          # optional colon segment name, or per-frame list of names
+  field_mask: null        # optional (52, 69) boolean aperture on the latent grid (.npy)
+
+sampling:
+  seed: 0
+  num_steps: 35
+  tube_cfg: 1.0
+  mask_cfg: 3.0
+  guidance: 1.0
+
+output:
+  dir: outputs/generate
+  previews: true          # also write tube.mp4 / mask.mp4
+  save_frames: false      # also write the raw uint8 frames as generated.npz
