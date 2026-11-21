@@ -5,8 +5,12 @@ lumen model (the *tube*). Chunks are chained into a full cecum-to-rectum withdra
 condition masks add polyps, tools, snares and irrigation, and a global flag switches to
 narrow-band imaging (NBI).
 
-<p align="center"><img src="docs/assets/overview.png" width="480" alt="Synthetic colon model with the endoscope camera path from cecum to rectum"></p>
-<p align="center"><em>Synthetic full-colon tube with anatomical segments; the camera withdraws from the cecum to the rectum.<br>Generated videos are on the project page (link: coming soon).</em></p>
+<p align="center"><img src="docs/assets/fig1_teaser.png" width="100%" alt="ColonoWorld overview"></p>
+<p align="center"><em>Generated videos are on the project page (link: coming soon).</em></p>
+
+## Method
+
+<p align="center"><img src="docs/assets/fig3_architecture.png" width="100%" alt="ColonoWorld architecture"></p>
 
 The model is built on the NVIDIA Cosmos video world model. It conditions the generator with:
 
@@ -18,6 +22,16 @@ The model is built on the NVIDIA Cosmos video world model. It conditions the gen
 - **NBI flag:** a global adapter on the target tokens.
 
 Tube and mask guidance are composed as `v = v0 + s_t (v_T - v0) + s_m (v_TM - v_T)`.
+
+## Results
+
+**Camera control.** Generated videos follow the commanded camera motion.
+
+<p align="center"><img src="docs/assets/fig4_camera_motions.png" width="100%" alt="Generated videos under different camera motions"></p>
+
+**Full procedure.** Chained chunks form a full cecum-to-rectum withdrawal.
+
+<p align="center"><img src="docs/assets/fig5_full_procedure.jpg" width="100%" alt="Full-procedure generation from the cecum to the rectum"></p>
 
 ## Repository layout
 
