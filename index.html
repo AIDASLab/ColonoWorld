@@ -108,6 +108,9 @@ h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 64px 0
 .dir svg { width: 22px; height: 22px; stroke: #fff; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .dir.down svg { transform: rotate(180deg); } .dir.left svg { transform: rotate(-90deg); } .dir.right svg { transform: rotate(90deg); }
 #fp .pills.six { left: 31.94%; }
+.shapes { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+.shapes button { border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px; padding: 7px 14px; font: 500 14px/1 var(--body); cursor: pointer; }
+.shapes button.on { background: var(--ink); border-color: var(--ink); color: #fff; }
 .pill.ours { background: var(--mucosa); color: #fff; }
 .tag { display: inline-block; padding: 5px 11px; border-radius: 999px; font: 600 13px/1 var(--body); background: #f2f2f2; color: var(--ink); border: 1px solid var(--line); margin-top: 12px; }
 .method-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 26px 0 30px; }
@@ -284,10 +287,18 @@ footer p { margin: 0 auto; max-width: 720px; }
     </div>
 
     <h3>Full procedure against video generators</h3>
-    <p class="lead">Same colon, same camera path, same first frame. Left: the endoscope inside the colon model, in sync with the videos. 8&times; speed.</p>
+    <p class="lead">Six colon shapes. For each shape, every model gets the same colon, camera path and first frame. Left: the endoscope inside the colon model, in sync with the videos. 8&times; speed.</p>
+    <div class="shapes" role="tablist" aria-label="Colon shape">
+      <button type="button" class="on" data-shape="v5_standard">Standard</button>
+      <button type="button" data-shape="v5b_long_sigmoid">Long sigmoid</button>
+      <button type="button" data-shape="v5b_twisted">Twisted</button>
+      <button type="button" data-shape="v5_u_shaped">U-shaped</button>
+      <button type="button" data-shape="v5_v_shaped">V-shaped</button>
+      <button type="button" data-shape="v5_short_compact">Short compact</button>
+    </div>
     <div id="fp">
       <div class="card">
-        <video muted loop playsinline preload="none" data-src="./static/videos/compare_full_procedure.mp4" poster="./static/posters/compare_full_procedure.jpg"></video>
+        <video muted loop playsinline preload="none" id="fp-video" data-src="./static/videos/compare_v5_standard.mp4" poster="./static/posters/compare_v5_standard.jpg"></video>
         <div class="pills six">
           <div><span class="pill">Cosmos3-Nano</span></div><div><span class="pill">Wan2.2-Fun</span></div><div><span class="pill">CamI2V</span></div>
           <div><span class="pill">UCPE (fine-tuned)</span></div><div><span class="pill">LingBot-World</span></div><div><span class="pill ours">ColonoWorld</span></div>
@@ -376,6 +387,17 @@ footer p { margin: 0 auto; max-width: 720px; }
   } else {
     vids.forEach(function (v) { load(v); v.autoplay = true; });
   }
+  var fv = document.getElementById('fp-video');
+  Array.prototype.forEach.call(document.querySelectorAll('.shapes button'), function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('.shapes button').forEach(function (x) { x.classList.toggle('on', x === b); x.setAttribute('aria-selected', x === b); });
+      var sh = b.dataset.shape;
+      fv.poster = './static/posters/compare_' + sh + '.jpg';
+      fv.dataset.src = './static/videos/compare_' + sh + '.mp4';
+      fv.src = fv.dataset.src; fv.dataset.loaded = '1';
+      var p = fv.play(); if (p && p.catch) p.catch(function () {});
+    });
+  });
   var btn = document.getElementById('copy-bib');
   btn.addEventListener('click', function () {
     var t = document.getElementById('bib-text').textContent;
