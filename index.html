@@ -36,7 +36,7 @@
   color-scheme: light;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 16px; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.65 var(--body); -webkit-font-smoothing: antialiased; }
 img, video { max-width: 100%; display: block; }
 a { color: inherit; }
@@ -44,8 +44,8 @@ a { color: inherit; }
 .narrow { max-width: calc(var(--text) + 40px); }
 
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--night); z-index: 30; }
-.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(11, 11, 11, .86); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px); border-bottom: 1px solid rgba(255, 255, 255, .06); }
-.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 56px; }
+.nav { background: none; }
+.nav .wrap { display: flex; align-items: center; justify-content: flex-end; height: 44px; }
 .brand { font: 800 16px/1 var(--display); color: var(--on-night); text-decoration: none; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; }
 .brand img { width: 26px; height: 26px; }
 .nav ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; overflow-x: auto; scrollbar-width: none; }
@@ -53,7 +53,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .nav a.l { display: block; padding: 7px 12px; border-radius: 999px; color: var(--on-night-2); text-decoration: none; font: 500 14px/1 var(--body); white-space: nowrap; }
 .nav a.l:hover, .nav a.l:focus-visible { color: var(--on-night); background: rgba(255, 255, 255, .08); outline: none; }
 
-.hero { background: var(--night); color: var(--on-night); height: 100vh; height: 100svh; min-height: 620px; padding-block: 28px 22px; display: flex; flex-direction: column; }
+.hero { background: var(--night); color: var(--on-night); height: 100vh; height: 100svh; min-height: 620px; padding-block: 8px 22px; display: flex; flex-direction: column; }
 .hero > .wrap { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 .hero h1 { font: 800 clamp(44px, 8vw, 84px)/1 var(--display); letter-spacing: -.035em; margin: 0; text-align: center; }
 .hero h1 .wordmark { width: min(480px, 80vw); height: auto; margin: 0 auto; }
@@ -162,6 +162,16 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
 
 
 <header class="hero" id="top">
+  <nav class="nav" aria-label="Sections">
+    <div class="wrap">
+      <ul>
+        <li><a class="l" href="#abstract">Abstract</a></li>
+        <li><a class="l" href="#method">Method</a></li>
+        <li><a class="l" href="#results">Results</a></li>
+        <li><a class="l" href="#bibtex">BibTeX</a></li>
+      </ul>
+    </div>
+  </nav>
   <div class="wrap">
     <h1><img class="wordmark" src="./static/images/logo_wordmark_dark.svg" alt="ColonoWorld" width="653" height="97"></h1>
     <p class="sub">Camera-Controlled Full-Procedure Colonoscopy Video Generation</p>
