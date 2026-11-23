@@ -45,7 +45,7 @@ a { color: inherit; }
 
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--night); z-index: 30; }
 .nav { background: none; }
-.nav .wrap { display: flex; align-items: center; justify-content: flex-end; height: 44px; }
+.nav .wrap { max-width: none; display: flex; align-items: center; justify-content: flex-end; height: 44px; padding-right: max(24px, env(safe-area-inset-right, 0px)); }
 .brand { font: 800 16px/1 var(--display); color: var(--on-night); text-decoration: none; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; }
 .brand img { width: 26px; height: 26px; }
 .nav ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; overflow-x: auto; scrollbar-width: none; }
@@ -290,7 +290,7 @@ footer p { margin: 0 auto; max-width: 720px; }
         <video muted loop playsinline preload="none" data-src="./static/videos/compare_full_procedure.mp4" poster="./static/posters/compare_full_procedure.jpg"></video>
         <div class="pills six">
           <div><span class="pill">Cosmos3-Nano</span></div><div><span class="pill">Wan2.2-Fun</span></div><div><span class="pill">CamI2V</span></div>
-          <div><span class="pill">UCPE</span></div><div><span class="pill">LingBot-World</span></div><div><span class="pill ours">ColonoWorld</span></div>
+          <div><span class="pill">UCPE (fine-tuned)</span></div><div><span class="pill">LingBot-World</span></div><div><span class="pill ours">ColonoWorld</span></div>
         </div>
       </div>
     </div>
@@ -306,7 +306,7 @@ footer p { margin: 0 auto; max-width: 720px; }
 
     <h3>The tube keeps the anatomy</h3>
     <p class="lead">A full procedure with the same camera path and seed, generated without the tube and with it.</p>
-    <figure style="margin:0"><div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/null_tube_vs_ours.mp4" poster="./static/posters/null_tube_vs_ours.jpg"></video><div class="pills halves"><div><span class="pill">Without the tube</span></div><div><span class="pill ours">ColonoWorld</span></div></div></div></figure>
+    <figure style="margin:0"><div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/null_tube_vs_ours.mp4" poster="./static/posters/null_tube_vs_ours.jpg"></video></div></figure>
 
     <h3>Benchmarks</h3>
     <div class="grid">
