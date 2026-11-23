@@ -17,11 +17,11 @@
 :root {
   --night: #0b0b0b;
   --night-2: #141414;
-  --paper: #0b0b0b;
-  --card: #151515;
-  --ink: #f4f4f4;
-  --ink-2: #bdbdbd;
-  --line: #262626;
+  --paper: #ffffff;
+  --card: #ffffff;
+  --ink: #111111;
+  --ink-2: #444444;
+  --line: #e5e5e5;
   --mucosa: #d85a30;
   --mucosa-soft: rgba(216, 90, 48, .16);
   --on-night: #f4f4f4;
@@ -33,7 +33,7 @@
   --radius: 14px;
   --wide: 1120px;
   --text: 720px;
-  color-scheme: dark;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
@@ -85,6 +85,7 @@ h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 64px 0
 .abstract p { font-size: 18px; line-height: 1.8; margin: 0 0 18px; color: var(--ink-2); }
 .abstract p:last-child { margin-bottom: 0; }
 .abstract .hl { color: var(--ink); font-weight: 600; }
+.abstract p { color: var(--ink); }
 .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 30px; }
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
 .stat b { display: block; font: 800 34px/1 var(--display); color: var(--mucosa); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
@@ -107,7 +108,7 @@ h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 64px 0
 .dir.down svg { transform: rotate(180deg); } .dir.left svg { transform: rotate(-90deg); } .dir.right svg { transform: rotate(90deg); }
 #fp .pills.six { left: 31.94%; }
 .pill.ours { background: var(--mucosa); color: #fff; }
-.tag { display: inline-block; padding: 5px 11px; border-radius: 999px; font: 600 13px/1 var(--body); background: var(--night-2); color: var(--ink); border: 1px solid var(--line); margin-top: 12px; }
+.tag { display: inline-block; padding: 5px 11px; border-radius: 999px; font: 600 13px/1 var(--body); background: #f2f2f2; color: var(--ink); border: 1px solid var(--line); margin-top: 12px; }
 .method-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 26px 0 30px; }
 .method-points div { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 18px 16px; min-width: 0; }
 .method-points b { display: block; font: 700 16px/1.3 var(--display); margin-bottom: 6px; }
@@ -121,13 +122,13 @@ h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 64px 0
 .diagram text.small { font-size: 13px; font-weight: 400; fill: var(--ink-2); }
 .diagram .wire { fill: none; stroke: var(--ink); stroke-width: 1.4; marker-end: url(#arr); }
 
-.bib { position: relative; background: var(--card); border: 1px solid var(--line); color: var(--on-night); border-radius: var(--radius); padding: 22px 22px; overflow-x: auto; }
+.bib { position: relative; background: #f5f5f5; border: 1px solid var(--line); color: var(--ink); border-radius: var(--radius); padding: 22px 22px; overflow-x: auto; }
 .bib pre { margin: 0; font: 400 13.5px/1.7 var(--mono); white-space: pre; }
-.copy { position: absolute; top: 12px; right: 12px; border: 1px solid rgba(255, 255, 255, .18); background: rgba(255, 255, 255, .06); color: var(--on-night); border-radius: 999px; padding: 6px 12px; font: 600 12.5px/1 var(--body); cursor: pointer; }
-.copy:hover, .copy:focus-visible { background: rgba(255, 255, 255, .14); outline: none; }
+.copy { position: absolute; top: 12px; right: 12px; border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 999px; padding: 6px 12px; font: 600 12.5px/1 var(--body); cursor: pointer; }
+.copy:hover, .copy:focus-visible { background: #eeeeee; outline: none; }
 
-footer { background: var(--night); border-top: 1px solid var(--line); color: var(--on-night-2); padding-block: 40px 48px; font-size: 14px; line-height: 1.7; }
-footer a { color: var(--on-night); }
+footer { background: var(--paper); border-top: 1px solid var(--line); color: var(--ink-2); padding-block: 40px 48px; font-size: 14px; line-height: 1.7; }
+footer a { color: var(--ink); }
 footer .logos { display: flex; flex-wrap: wrap; gap: 26px; align-items: center; margin-top: 18px; }
 footer .logos img { height: 30px; width: auto; }
 footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius: 0; margin-right: auto; }
@@ -156,7 +157,7 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
 
 <nav class="nav" aria-label="Sections">
   <div class="wrap">
-    <a class="brand" href="#top"><img src="./static/images/logo_icon.svg" alt="" width="26" height="26">ColonoWorld</a>
+    <a class="brand" href="#top"><img src="./static/images/logo_icon.svg" alt="ColonoWorld" width="26" height="26"></a>
     <ul>
       <li><a class="l" href="#abstract">Abstract</a></li>
       <li><a class="l" href="#method">Method</a></li>
@@ -212,7 +213,6 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
         <video autoplay muted loop playsinline preload="auto" poster="./static/posters/teaser_full_procedure.jpg">
           <source src="./static/videos/teaser_full_procedure.mp4" type="video/mp4">
         </video>
-        <div class="pills"><div><span class="pill ours">ColonoWorld</span></div></div>
       </div>
       <figcaption>A full withdrawal from the cecum to the rectum, generated from one whole-colon tube. Right: the endoscope inside the colon model, in sync with the video. 8&times; speed.</figcaption>
     </figure>
@@ -333,9 +333,9 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
   <div class="wrap">
     <p>Real colonoscopy frames are from the <a href="https://doi.org/10.25452/figshare.plus.22202866">REAL-Colon dataset</a> (Biffi et al., Scientific Data 2024), licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; generated videos are derived from its frames.</p>
     <div class="logos">
-      <img class="cw" src="./static/images/logo_wordmark_dark.svg" alt="ColonoWorld" width="653" height="97">
-      <a href="https://en.snu.ac.kr"><img src="./static/images/snu_logo_white.png" alt="Seoul National University"></a>
-      <a href="https://aidas.snu.ac.kr"><img src="./static/images/aidaslab_logo_white.png" alt="AIDAS Lab"></a>
+      <img class="cw" src="./static/images/logo_wordmark.svg" alt="ColonoWorld" width="653" height="97">
+      <a href="https://en.snu.ac.kr"><img src="./static/images/snu_logo.png" alt="Seoul National University"></a>
+      <a href="https://aidas.snu.ac.kr"><img src="./static/images/aidaslab_logo.png" alt="AIDAS Lab"></a>
     </div>
   </div>
 </footer>
