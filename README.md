@@ -178,10 +178,13 @@ pytest tests
 ## Citation
 
 ```bibtex
-@article{colonoworld,
-  title  = {ColonoWorld: Camera-Controlled Full-Procedure Colonoscopy Video Generation},
-  author = {ColonoWorld Authors},
-  year   = {2026}
+@article{hong2026colonoworld,
+  title   = {ColonoWorld: Camera-Controlled Full-Procedure
+             Colonoscopy Video Generation},
+  author  = {Hong, Jihwan and Cho, Sunghwan Steve and Ho, Ping Shu and
+             Kim, Joo Seong and Kim, Bokyung and Kim, Nam-Joon and
+             See, Simon and Kim, Ji Won and Do, Jaeyoung},
+  year    = {2026}
 }
 ```
 
