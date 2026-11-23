@@ -347,7 +347,7 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        var v = e.target;
+        var v = e.target; v.dataset.vis = e.isIntersecting ? '1' : '0';
         if (e.isIntersecting) {
           var g = v.dataset.group ? vids.filter(function (x) { return x.dataset.group === v.dataset.group; }) : [v];
           var fresh = !v.dataset.loaded;
@@ -356,8 +356,17 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
         }
         else if (v.dataset.loaded) { v.pause(); }
       });
-    }, { rootMargin: '300px 0px' });
+    }, { rootMargin: '0px', threshold: 0.15 });
     vids.forEach(function (v) { io.observe(v); });
+    // keep visible videos running if the browser stalls them
+    setInterval(function () {
+      vids.forEach(function (v) {
+        if (!v.dataset.loaded || v.dataset.vis !== '1') return;
+        var t = v.currentTime;
+        if (v.paused || t === +v.dataset.last) { var p = v.play(); if (p && p.catch) p.catch(function () {}); if (t === +v.dataset.last && !v.paused && v.readyState >= 2) v.currentTime = t + 0.05; }
+        v.dataset.last = t;
+      });
+    }, 2000);
   } else {
     vids.forEach(function (v) { load(v); v.autoplay = true; });
   }
