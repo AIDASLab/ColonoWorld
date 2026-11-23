@@ -15,25 +15,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 <style>
 :root {
-  --night: #0f0b0c;
-  --night-2: #1b1416;
-  --paper: #fbf8f6;
-  --card: #ffffff;
-  --ink: #1b1416;
-  --ink-2: #4a3d41;
-  --line: #ece3df;
+  --night: #0b0b0b;
+  --night-2: #141414;
+  --paper: #0b0b0b;
+  --card: #151515;
+  --ink: #f4f4f4;
+  --ink-2: #bdbdbd;
+  --line: #262626;
   --mucosa: #d85a30;
-  --mucosa-soft: #f8e1d8;
-  --on-night: #f6efec;
-  --on-night-2: #c9b9b5;
-  --shadow: 0 1px 2px rgba(40, 20, 20, .06), 0 10px 30px -12px rgba(40, 20, 20, .22);
+  --mucosa-soft: rgba(216, 90, 48, .16);
+  --on-night: #f4f4f4;
+  --on-night-2: #a8a8a8;
+  --shadow: none;
   --display: "Manrope", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --radius: 14px;
   --wide: 1120px;
   --text: 720px;
-  color-scheme: light;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
@@ -44,7 +44,7 @@ a { color: inherit; }
 .narrow { max-width: calc(var(--text) + 40px); }
 
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--night); z-index: 30; }
-.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(15, 11, 12, .82); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px); border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(11, 11, 11, .86); backdrop-filter: saturate(140%) blur(12px); -webkit-backdrop-filter: saturate(140%) blur(12px); border-bottom: 1px solid rgba(255, 255, 255, .06); }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 56px; }
 .brand { font: 800 16px/1 var(--display); color: var(--on-night); text-decoration: none; letter-spacing: -.01em; display: flex; align-items: center; gap: 10px; }
 .brand img { width: 26px; height: 26px; }
@@ -53,17 +53,19 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .nav a.l { display: block; padding: 7px 12px; border-radius: 999px; color: var(--on-night-2); text-decoration: none; font: 500 14px/1 var(--body); white-space: nowrap; }
 .nav a.l:hover, .nav a.l:focus-visible { color: var(--on-night); background: rgba(255, 255, 255, .08); outline: none; }
 
-.hero { background: radial-gradient(1200px 500px at 50% -10%, #2a1a1b 0%, var(--night) 60%); color: var(--on-night); padding-block: 72px 56px; }
+.hero { background: var(--night); color: var(--on-night); padding-block: 36px 40px; }
 .hero h1 { font: 800 clamp(44px, 8vw, 84px)/1 var(--display); letter-spacing: -.035em; margin: 0; text-align: center; }
-.hero h1 .wordmark { width: min(620px, 86vw); height: auto; margin: 0 auto; }
-.hero .sub { font: 500 clamp(18px, 2.4vw, 24px)/1.35 var(--display); color: var(--on-night); text-align: center; margin: 18px auto 0; max-width: 760px; text-wrap: balance; letter-spacing: -.01em; }
-.authors { margin: 34px auto 0; max-width: 900px; text-align: center; font: 500 16px/1.9 var(--body); color: var(--on-night); }
+.hero h1 .wordmark { width: min(480px, 80vw); height: auto; margin: 0 auto; }
+.hero .sub { font: 500 clamp(18px, 2.4vw, 24px)/1.35 var(--display); color: var(--on-night); text-align: center; margin: 12px auto 0; max-width: 760px; text-wrap: balance; letter-spacing: -.01em; }
+.authors { margin: 20px auto 0; max-width: 900px; text-align: center; font: 500 16px/1.9 var(--body); color: var(--on-night); }
 .authors span { white-space: nowrap; margin: 0 7px; }
+.authors a { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(255, 255, 255, .25); }
+.authors a:hover { border-color: var(--mucosa); }
 .authors sup, .affil sup { color: var(--mucosa); font-weight: 600; margin-left: 1px; }
 .affil { margin: 10px auto 0; text-align: center; font: 400 15px/1.8 var(--body); color: var(--on-night-2); }
 .affil span { white-space: nowrap; margin: 0 9px; }
 .notes { margin-top: 6px; text-align: center; font: 400 14px/1.6 var(--body); color: var(--on-night-2); }
-.btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 30px; }
+.btns { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 999px; font: 600 15px/1 var(--body); text-decoration: none; border: 1px solid rgba(255, 255, 255, .16); color: var(--on-night); background: rgba(255, 255, 255, .04); transition: background .2s, border-color .2s; }
 .btn svg { width: 17px; height: 17px; fill: currentColor; }
 .btn:hover, .btn:focus-visible { background: rgba(255, 255, 255, .1); border-color: rgba(255, 255, 255, .3); outline: none; }
@@ -71,26 +73,26 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .btn.primary:hover, .btn.primary:focus-visible { background: #e2724c; }
 .btn.off { opacity: .4; cursor: default; }
 .btn.off:hover { background: rgba(255, 255, 255, .04); border-color: rgba(255, 255, 255, .16); }
-.teaser { margin-top: 48px; }
-.teaser .frame { border-radius: 18px; overflow: hidden; background: #000; box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .06); position: relative; }
-.teaser figcaption { margin: 18px auto 0; max-width: 760px; text-align: center; color: var(--on-night-2); font-size: 16px; text-wrap: balance; }
+.teaser { margin: 26px 0 0; }
+.teaser .frame { width: min(100%, max(560px, calc((100svh - 520px) * 2.266))); margin: 0 auto; border-radius: 14px; overflow: hidden; background: #000; box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .8), 0 0 0 1px rgba(255, 255, 255, .06); position: relative; }
+.teaser figcaption { margin: 14px auto 0; max-width: 760px; text-align: center; color: var(--on-night-2); font-size: 16px; text-wrap: balance; }
 
 section.block { padding-block: 88px 0; }
 section.block:last-of-type { padding-bottom: 96px; }
-.eyebrow { font: 600 13px/1 var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--mucosa); margin: 0 0 12px; }
 h2 { font: 800 clamp(30px, 4vw, 42px)/1.1 var(--display); letter-spacing: -.025em; margin: 0 0 18px; text-wrap: balance; }
 h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 64px 0 8px; text-wrap: balance; }
 .lead { color: var(--ink-2); margin: 0 0 22px; max-width: var(--text); }
-.abstract p { font-size: 18px; line-height: 1.75; margin: 0; }
-.abstract .hl { background: linear-gradient(transparent 62%, var(--mucosa-soft) 62%); font-weight: 600; }
+.abstract p { font-size: 18px; line-height: 1.8; margin: 0 0 18px; color: var(--ink-2); }
+.abstract p:last-child { margin-bottom: 0; }
+.abstract .hl { color: var(--ink); font-weight: 600; }
 .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 30px; }
 .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
 .stat b { display: block; font: 800 34px/1 var(--display); color: var(--mucosa); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .stat span { display: block; margin-top: 8px; font-size: 15px; color: var(--ink-2); }
 
-.card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; position: relative; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; position: relative; }
 .card video, .card img { width: 100%; height: auto; background: #000; }
-.card img.chart { background: #fff; padding: 12px; }
+.card img.chart { background: #fff; padding: 16px; }
 .cap { margin: 12px 2px 0; font-size: 15px; color: var(--ink-2); }
 .grid { display: grid; gap: 22px; }
 .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -99,9 +101,13 @@ h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 64px 0
 .pills.halves { grid-template-columns: 1fr 1fr; }
 .pills.six { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
 .pills > div { padding: 10px; }
-.pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; font: 600 12.5px/1 var(--body); color: #fff; background: rgba(15, 11, 12, .62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); letter-spacing: .01em; white-space: nowrap; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; font: 600 12.5px/1 var(--body); color: #fff; background: rgba(0, 0, 0, .62); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); letter-spacing: .01em; white-space: nowrap; }
+.dir { position: absolute; right: 10px; bottom: 10px; width: 38px; height: 38px; border-radius: 50%; background: rgba(0, 0, 0, .55); display: grid; place-items: center; pointer-events: none; }
+.dir svg { width: 22px; height: 22px; stroke: #fff; stroke-width: 2.4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.dir.down svg { transform: rotate(180deg); } .dir.left svg { transform: rotate(-90deg); } .dir.right svg { transform: rotate(90deg); }
+#fp .pills.six { left: 31.94%; }
 .pill.ours { background: var(--mucosa); color: #fff; }
-.tag { display: inline-block; padding: 5px 11px; border-radius: 999px; font: 600 13px/1 var(--body); background: var(--mucosa-soft); color: #7a2a1f; margin-top: 12px; }
+.tag { display: inline-block; padding: 5px 11px; border-radius: 999px; font: 600 13px/1 var(--body); background: var(--night-2); color: var(--ink); border: 1px solid var(--line); margin-top: 12px; }
 .method-points { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 26px 0 30px; }
 .method-points div { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 18px 16px; min-width: 0; }
 .method-points b { display: block; font: 700 16px/1.3 var(--display); margin-bottom: 6px; }
@@ -115,15 +121,15 @@ h3 { font: 700 22px/1.25 var(--display); letter-spacing: -.015em; margin: 64px 0
 .diagram text.small { font-size: 13px; font-weight: 400; fill: var(--ink-2); }
 .diagram .wire { fill: none; stroke: var(--ink); stroke-width: 1.4; marker-end: url(#arr); }
 
-.bib { position: relative; background: var(--night); color: var(--on-night); border-radius: var(--radius); padding: 22px 22px; overflow-x: auto; }
+.bib { position: relative; background: var(--card); border: 1px solid var(--line); color: var(--on-night); border-radius: var(--radius); padding: 22px 22px; overflow-x: auto; }
 .bib pre { margin: 0; font: 400 13.5px/1.7 var(--mono); white-space: pre; }
 .copy { position: absolute; top: 12px; right: 12px; border: 1px solid rgba(255, 255, 255, .18); background: rgba(255, 255, 255, .06); color: var(--on-night); border-radius: 999px; padding: 6px 12px; font: 600 12.5px/1 var(--body); cursor: pointer; }
 .copy:hover, .copy:focus-visible { background: rgba(255, 255, 255, .14); outline: none; }
 
-footer { background: var(--night); color: var(--on-night-2); padding-block: 40px 48px; font-size: 14px; line-height: 1.7; }
+footer { background: var(--night); border-top: 1px solid var(--line); color: var(--on-night-2); padding-block: 40px 48px; font-size: 14px; line-height: 1.7; }
 footer a { color: var(--on-night); }
-footer .logos { display: flex; gap: 22px; align-items: center; margin-top: 18px; }
-footer .logos img { height: 34px; width: auto; background: #fff; border-radius: 8px; padding: 5px 8px; }
+footer .logos { display: flex; flex-wrap: wrap; gap: 26px; align-items: center; margin-top: 18px; }
+footer .logos img { height: 30px; width: auto; }
 footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius: 0; margin-right: auto; }
 
 @media (max-width: 860px) {
@@ -142,7 +148,6 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
   .pills.six .pill { font-size: 9.5px; padding: 3px 6px; }
   .pills.six > div { padding: 4px; }
   section.block { padding-block: 64px 0; }
-  #fp { grid-template-columns: 1fr !important; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
@@ -217,20 +222,12 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
 <main>
 <section class="block" id="abstract">
   <div class="wrap narrow">
-    <p class="eyebrow">Abstract</p>
     <h2>A world model for colonoscopy</h2>
     <div class="abstract">
-      <p>
-        Navigation systems in colonoscopy are advancing from guiding the endoscopist to steering the scope autonomously.
-        Since an incorrect motion can injure the patient, developing and evaluating these systems calls for a world model of colonoscopy.
-        Such a model must follow a commanded scope motion, keep the colon anatomy consistent, and show lesions and procedural events.
-        Yet camera-controlled generators trained on general scenes lose the colon's structure under motion, and endoscopic generators offer no camera control.
-        We present ColonoWorld, a colonoscopy world model conditioned on a camera trajectory and a coarse 3D tube of the colon, trained on in vivo videos.
-        From a whole-colon tube, it generates a full cecum-to-rectum procedure, even for unseen colon shapes.
-        It also places polyps, instruments, and irrigation at specified locations and times.
-        ColonoWorld outperforms state-of-the-art video generators, reducing <span class="hl">camera trajectory error by 32%</span> and <span class="hl">FVD by 29%</span>.
-        Our code and annotations will be released.
-      </p>
+      <p>Colonoscopy navigation systems are moving from guiding the endoscopist to steering the scope on their own. A wrong motion can injure the patient, so these systems need a world model of colonoscopy to be built and tested. Such a model has to follow the commanded scope motion, keep the colon anatomy consistent, and show lesions and procedural events.</p>
+      <p>Camera-controlled generators trained on general scenes lose the colon's structure as the camera moves. Endoscopic video generators have no camera control.</p>
+      <p>ColonoWorld is a colonoscopy world model conditioned on a camera trajectory and a coarse 3D tube of the colon, trained on in vivo videos. From a whole-colon tube it generates a full procedure from the cecum to the rectum, also for colon shapes it has not seen. It places polyps, instruments and irrigation at a chosen location and time.</p>
+      <p>Against state-of-the-art video generators, ColonoWorld reduces <span class="hl">camera trajectory error by 32%</span> and <span class="hl">FVD by 29%</span>. Code and annotations will be released.</p>
     </div>
     <div class="stats">
       <div class="stat"><b>&minus;32%</b><span>camera trajectory error</span></div>
@@ -242,9 +239,10 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
 <section class="block" id="method">
   <div class="wrap">
     <div class="narrow" style="padding:0; margin:0 auto;">
-      <p class="eyebrow">Method</p>
       <h2>Camera path and colon tube as conditions</h2>
-      <p class="lead">A pretrained video diffusion model is conditioned on the commanded camera trajectory and on a coarse 3D tube of the colon rendered from that camera. The rendered tube is encoded by the video VAE and fed with the noise, so each frame keeps the colon's lumen, folds and bends. Each chunk starts from the last frame of the previous one, which gives one continuous procedure from the cecum to the rectum.</p>
+      <p class="lead">A pretrained video diffusion model takes two conditions: the commanded camera trajectory, and a coarse 3D tube of the colon rendered from that camera.</p>
+      <p class="lead">The rendered tube goes through the video VAE and enters with the noise, so each frame keeps the lumen, folds and bends of the colon.</p>
+      <p class="lead">Each chunk starts from the last frame of the previous one. This gives one continuous procedure from the cecum to the rectum.</p>
     </div>
     <div class="method-points">
       <div><b>Camera trajectory</b><p>The commanded scope pose for every frame.</p></div>
@@ -269,22 +267,20 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
 <section class="block" id="results">
   <div class="wrap">
     <div class="narrow" style="padding:0; margin:0 auto;">
-      <p class="eyebrow">Results</p>
       <h2>Following the commanded camera</h2>
       <p class="lead">One starting frame, different camera commands. The view follows each command and the colon stays consistent.</p>
     </div>
     <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/direction_grid.mp4" poster="./static/posters/direction_grid.jpg"></video></div>
     <div class="grid g4" style="margin-top:22px;">
-      <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/look_up.mp4" poster="./static/posters/look_up.jpg"></video><div class="pills"><div><span class="pill">Look up</span></div></div></div>
-      <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/look_down.mp4" poster="./static/posters/look_down.jpg"></video><div class="pills"><div><span class="pill">Look down</span></div></div></div>
-      <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/look_left.mp4" poster="./static/posters/look_left.jpg"></video><div class="pills"><div><span class="pill">Look left</span></div></div></div>
-      <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/look_right.mp4" poster="./static/posters/look_right.jpg"></video><div class="pills"><div><span class="pill">Look right</span></div></div></div>
+      <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/look_up.mp4" poster="./static/posters/look_up.jpg" data-group="dir"></video><span class="dir up"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></span><div class="pills"><div><span class="pill">Look up</span></div></div></div>
+      <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/look_down.mp4" poster="./static/posters/look_down.jpg" data-group="dir"></video><span class="dir down"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></span><div class="pills"><div><span class="pill">Look down</span></div></div></div>
+      <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/look_left.mp4" poster="./static/posters/look_left.jpg" data-group="dir"></video><span class="dir left"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></span><div class="pills"><div><span class="pill">Look left</span></div></div></div>
+      <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/look_right.mp4" poster="./static/posters/look_right.jpg" data-group="dir"></video><span class="dir right"><svg viewBox="0 0 24 24"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5"/></svg></span><div class="pills"><div><span class="pill">Look right</span></div></div></div>
     </div>
 
     <h3>Full procedure against video generators</h3>
-    <p class="lead">Same colon, same camera path, same first frame. 8&times; speed.</p>
-    <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,2.4fr); align-items:center;" id="fp">
-      <div class="card"><img src="./static/images/colon_overview.jpg" alt="Whole-colon tube with the camera path from the cecum to the rectum" loading="lazy" style="background:#fff"></div>
+    <p class="lead">Same colon, same camera path, same first frame. Left: the endoscope inside the colon model, in sync with the videos. 8&times; speed.</p>
+    <div id="fp">
       <div class="card">
         <video muted loop playsinline preload="none" data-src="./static/videos/compare_full_procedure.mp4" poster="./static/posters/compare_full_procedure.jpg"></video>
         <div class="pills six">
@@ -304,15 +300,11 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
     </div>
 
     <h3>The tube keeps the anatomy</h3>
-    <p class="lead">Same camera command and seed, with and without each condition.</p>
-    <div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/no_tube_vs_tube.mp4" poster="./static/posters/no_tube_vs_tube.jpg"></video></div>
-    <div class="grid g2" style="margin-top:22px;">
-      <figure style="margin:0"><div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/null_tube_vs_ours.mp4" poster="./static/posters/null_tube_vs_ours.jpg"></video></div><figcaption class="cap">Full procedure: without the tube, and ColonoWorld.</figcaption></figure>
-      <figure style="margin:0"><div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/null_camera_vs_ours.mp4" poster="./static/posters/null_camera_vs_ours.jpg"></video></div><figcaption class="cap">Full procedure: without the camera condition, and ColonoWorld.</figcaption></figure>
-    </div>
+    <p class="lead">A full procedure with the same camera path and seed, generated without the tube and with it.</p>
+    <figure style="margin:0"><div class="card"><video muted loop playsinline preload="none" data-src="./static/videos/null_tube_vs_ours.mp4" poster="./static/posters/null_tube_vs_ours.jpg"></video><div class="pills halves"><div><span class="pill">Without the tube</span></div><div><span class="pill ours">ColonoWorld</span></div></div></div></figure>
 
     <h3>Benchmarks</h3>
-    <div class="grid g2">
+    <div class="grid">
       <figure style="margin:0"><div class="card"><img class="chart" src="./static/images/benchmark_test.png" alt="Camera error and FVD against video generators on held-out colonoscopy videos" loading="lazy"></div><figcaption class="cap">Camera following on held-out colonoscopy videos.</figcaption></figure>
       <figure style="margin:0"><div class="card"><img class="chart" src="./static/images/benchmark_fullproc.png" alt="Full-procedure camera error and FVD over six colon shapes" loading="lazy"></div><figcaption class="cap">Full-procedure generation over six colon shapes.</figcaption></figure>
     </div>
@@ -321,7 +313,6 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
 
 <section class="block" id="bibtex">
   <div class="wrap narrow">
-    <p class="eyebrow">Citation</p>
     <h2>BibTeX</h2>
     <div class="bib">
       <button class="copy" type="button" id="copy-bib">Copy</button>
@@ -343,8 +334,8 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
     <p>Real colonoscopy frames are from the <a href="https://doi.org/10.25452/figshare.plus.22202866">REAL-Colon dataset</a> (Biffi et al., Scientific Data 2024), licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>; generated videos are derived from its frames.</p>
     <div class="logos">
       <img class="cw" src="./static/images/logo_wordmark_dark.svg" alt="ColonoWorld" width="653" height="97">
-      <a href="https://en.snu.ac.kr"><img src="./static/images/snu_logo.png" alt="Seoul National University"></a>
-      <a href="https://aidas.snu.ac.kr"><img src="./static/images/aidaslab_logo.png" alt="AIDAS Lab"></a>
+      <a href="https://en.snu.ac.kr"><img src="./static/images/snu_logo_white.png" alt="Seoul National University"></a>
+      <a href="https://aidas.snu.ac.kr"><img src="./static/images/aidaslab_logo_white.png" alt="AIDAS Lab"></a>
     </div>
   </div>
 </footer>
@@ -357,7 +348,12 @@ footer .logos img.cw { height: 26px; background: none; padding: 0; border-radius
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         var v = e.target;
-        if (e.isIntersecting) { load(v); var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        if (e.isIntersecting) {
+          var g = v.dataset.group ? vids.filter(function (x) { return x.dataset.group === v.dataset.group; }) : [v];
+          var fresh = !v.dataset.loaded;
+          g.forEach(load);
+          g.forEach(function (x) { if (fresh) x.currentTime = 0; var p = x.play(); if (p && p.catch) p.catch(function () {}); });
+        }
         else if (v.dataset.loaded) { v.pause(); }
       });
     }, { rootMargin: '300px 0px' });
