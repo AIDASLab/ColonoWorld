@@ -6,7 +6,7 @@ condition masks add polyps, tools, snares and irrigation, and a global flag swit
 narrow-band imaging (NBI).
 
 <p align="center"><img src="docs/assets/fig1_teaser.png" width="100%" alt="ColonoWorld overview"></p>
-<p align="center"><em>Generated videos are on the project page (link: coming soon).</em></p>
+<p align="center"><a href="https://arxiv.org/abs/2611.30372">Paper (arXiv)</a> &nbsp;|&nbsp; <a href="https://aidaslab.github.io/ColonoWorld/">Project page with generated videos</a></p>
 
 ## Method
 
@@ -184,6 +184,7 @@ pytest tests
   author  = {Hong, Jihwan and Cho, Sunghwan Steve and Ho, Ping Shu and
              Kim, Joo Seong and Kim, Bokyung and Kim, Nam-Joon and
              See, Simon and Kim, Ji Won and Do, Jaeyoung},
+  journal = {arXiv preprint arXiv:2611.30372},
   year    = {2026}
 }
 ```
